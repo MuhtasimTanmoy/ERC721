@@ -15,5 +15,5 @@ module.exports = {
       gas: 4612388 // Gas limit used for deploys
     }
   }
-  }
+  
 };

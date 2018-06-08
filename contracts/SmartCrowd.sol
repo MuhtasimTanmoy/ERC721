@@ -22,11 +22,20 @@ contract SmartCrowd {
     return true;
   }
 
+  function removeManager(address _manager) public{
+      RemoveByValue(managerList,_manager);
+      removeManaExist(_manager);
+ }
+
   function setManagerExist(address _manager) internal {
       managerExists[_manager]=true;
   }
 
-  function getManagerExist(address _manager) public view restricted returns(bool) {
+  function removeManagerExist(address _manager) internal {
+      manaExists[_manager]=false;
+  }
+
+  function checkManagerExist(address _manager) public view restricted returns(bool) {
       return managerExists[_manager];
   }
 
@@ -41,4 +50,27 @@ contract SmartCrowd {
 }
 
 
+//////library
+
+function IndexOf(address[] values, address value) internal pure returns(uint) {
+  uint i = 0;
+  while (values[i] != value) {
+    i++;
+  }
+  return i;
+}
+
+/** Removes the given value in an array. */
+function RemoveByValue(address[] values, address value) internal {
+  uint i = IndexOf(values,value);
+  RemoveByIndex(values,i);
+}
+
+function RemoveByIndex(address[] values, uint i)  internal{
+  while (i<values.length-1) {
+    values[i] = values[i+1];
+    i++;
+  }
+  managerList.length--;
+}
 }
